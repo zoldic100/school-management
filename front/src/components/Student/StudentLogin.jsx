@@ -21,8 +21,9 @@ const formSchema = z.object({
 })
 
 import React from 'react'
+import {Loader2, LoaderIcon} from 'lucide-react'
 import { axiosClient } from "../../Api/Axios"
-import { Await } from "react-router-dom"
+import { Await, useNavigate } from "react-router-dom"
 
 const StudentLogin = () => {
     // 1. Define your form.
@@ -40,14 +41,25 @@ const StudentLogin = () => {
      <div>StudentLogin</div>
    )
  }
- 
+ const navigate = useNavigate()
   // 2. Define a submit handler.
-  const  onSubmit = async (values ) =>{
+  const  onSubmit = async (values) =>{
+  
      await  axiosClient.get('/sanctum/csrf-cookie')
-    const csrf = await  axiosClient.post('/login',values)
+    const data =   axiosClient.post('/login',values).then((value)=>
+    value.status == '204' && navigate('/student/dashboard')
+    // ).catch((err)=>
+    // console.log(err.response.data.message)
+    // )
+    ).catch(({response})=>
+    // console.log(response.data.errors.email),
+    form.setError('email', {message: response.data.errors.email.join('')})
+    )
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values )
+
+    form.formState.isSubmitting
+    //console.log(data)
   }
   return (
     <>
@@ -85,7 +97,10 @@ const StudentLogin = () => {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button disabled={form.formState.isSubmitting}  type="submit">
+          Login {form.formState.isSubmitting && <LoaderIcon className="mx-2 my-1 animate-spin" />}
+        </Button>
+        
       </form>
     </Form>
     </div>

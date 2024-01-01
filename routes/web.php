@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ReactController;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,8 +14,11 @@ use App\Http\Controllers\ReactController;
 |
 */
 
+Route::get('/', function () {
+    return ['Laravel' => app()->version()];
+});
 
 
-Route::resource('/', ReactController::class);
+
 
 require __DIR__.'/auth.php';
