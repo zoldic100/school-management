@@ -36,18 +36,18 @@ const StudentLogin = () => {
   })
 
  
-  const StudentLogin = () => {
-   return (
-     <div>StudentLogin</div>
-   )
- }
+
  const navigate = useNavigate()
   // 2. Define a submit handler.
   const  onSubmit = async (values) =>{
   
      await  axiosClient.get('/sanctum/csrf-cookie')
-    const data =   axiosClient.post('/login',values).then((value)=>
-    value.status == '204' && navigate('/student/dashboard')
+    const data =   axiosClient.post('/login',values).then((value)=>{
+      
+    if(value.status === 204){
+      window.localStorage.setItem('ACCESS_TOKEN', 'test')
+        navigate('/student/dashboard')
+    }}
     // ).catch((err)=>
     // console.log(err.response.data.message)
     // )
