@@ -1,12 +1,12 @@
+import React from 'react'
 import { Outlet } from "react-router-dom";
 import { buttonVariants } from "@/components/ui/button"
-import NavBar from "../sections/NavBar/NavBar";
-
-const Layaout = () => {
+import NavBar from "../../sections/NavBar/NavBar";
+const GuestLayaout = () => {
   return (
     <>
     <NavBar />
-    <header>Header</header>
+    <header>GuestLayout</header>
     <main className="container mx-2">
     <Outlet />
 
@@ -18,4 +18,7 @@ const Layaout = () => {
   )
 }
 
-export default Layaout
+export default GuestLayaout
+
+
+
